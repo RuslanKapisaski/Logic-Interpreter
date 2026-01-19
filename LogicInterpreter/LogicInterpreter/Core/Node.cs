@@ -17,7 +17,7 @@
             {
                 return Value;
             }
-
+           
             if (Type == NodeType.Not)
             {
                 Value = Left.Evaluate() == 1 ? 0 : 1;
