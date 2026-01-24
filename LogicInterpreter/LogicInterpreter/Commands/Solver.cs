@@ -16,6 +16,7 @@ namespace LogicInterpreter.Commands
             Console.WriteLine("Result: " + result);
         }
 
+        // Рекурсивно решаване + кеширане
         internal static int Evaluate(Node node)
         {
             if (node.IsCalculated)
@@ -47,6 +48,7 @@ namespace LogicInterpreter.Commands
             return node.Value;
         }
 
+        // Маркира само засегнатите части за преизчисляване
         internal static bool UpdateVariable(Node node, char varName, int newValue)
         {
             if (node == null) return false;
