@@ -1,17 +1,21 @@
-﻿using System;
-using LogicInterpreter.Core;
+﻿using LogicInterpreter.Core;
 using LogicInterpreter.Parsing;
+using System;
 
 namespace LogicInterpreter.Commands
 {
     class Define
     {
-        public static LogicalFunction Execute(string input)
+
+
+        public static LogicalFunction Execute(string input, FunctionCollection functions)
         {
+
+
             input = input.Trim();
 
             int i = 6;
-            string name = null;
+            string name = "";
 
             //Function name
             while (i < input.Length && input[i] != '(')
@@ -45,8 +49,8 @@ namespace LogicInterpreter.Commands
             while (input[i] != ':') i++;
             i++;
 
-            //Reading expression
-            string expression = " ";
+            //Reading expression 
+            string expression = "";
 
             while (i < input.Length)
             {
@@ -58,8 +62,18 @@ namespace LogicInterpreter.Commands
             }
 
             //Parsing
-            ExpressionParser parser = new ExpressionParser();
-            Node root = parser.Parse(expression);
+            ExpressionParser parser = new ExpressionParser(functions);
+            Node root;
+
+            try
+            {
+                root = parser.Parse(expression);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Invalid expression: { expression}");
+                return null;
+            }
 
             //Function creation
             LogicalFunction function = new LogicalFunction
@@ -68,6 +82,8 @@ namespace LogicInterpreter.Commands
                 Parameters = Trim(parameters, parametersCount),
                 Root = root
             };
+
+            functions.Add(name, function);
 
             Console.WriteLine("Function defined:" + name);
             return function;
