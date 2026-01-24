@@ -4,22 +4,55 @@ namespace LogicInterpreter.Core
 {
     class FunctionCollection
     {
-        private LogicalFunction[] functions = new LogicalFunction[20];
-        private int count = 0;
+        private const int size = 31;
+        private LogicalFunction[][] table = new LogicalFunction[size][];
+
 
         public void Add(string name, LogicalFunction function)
         {
-            functions[count++] = function;
+            int index = Hash(name) % size;
+
+            if (table[index] == null)
+            {
+                table[index] = new LogicalFunction[10];
+            }
+
+            int i = 0;
+
+            while (table[index][i] != null)
+                i++;
+
+            table[index][i] = function;
         }
 
         public LogicalFunction Get(string name)
         {
-            for (int i = 0; i < count; i++)
+            int index = Hash(name) % size;
+
+            if (table[index] == null) return null;
+
+            int i = 0;
+            while (table[index][i] != null)
             {
-                if (functions[i].Name == name)
-                    return functions[i];
+                if (table[index][i].Name == name)
+                {
+                    return table[index][i];
+                }
+                i++;
             }
+
             return null;
+        }
+
+        private int Hash(string key)
+        {
+            int h = 0;
+            for (int i = 0; i < key.Length; i++)
+            {
+                h = h * 31 + key[i];
+            }
+
+            return h;
         }
     }
 }
