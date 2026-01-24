@@ -10,10 +10,6 @@
         public char Name;
         public int Value;
 
-        public bool isCalculated = false;
-
-
-     
-
-    
+        public bool IsCalculated = false;
+    }
 }

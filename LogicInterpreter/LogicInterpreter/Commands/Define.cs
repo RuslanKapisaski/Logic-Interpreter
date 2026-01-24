@@ -71,7 +71,7 @@ namespace LogicInterpreter.Commands
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Invalid expression: { expression}");
+                Console.WriteLine($"Invalid expression: { expression} => {e}");
                 return null;
             }
 
