@@ -1,5 +1,6 @@
 ﻿using LogicInterpreter.Core;
 using System;
+using System.Xml.Serialization;
 
 namespace LogicInterpreter.Commands
 {
@@ -21,6 +22,8 @@ namespace LogicInterpreter.Commands
             // 2) Пробваме най-простите: a / !a
             for (int i = 0; i < pool.Length; i++)
             {
+                Node cand = pool[i];
+
                 if (Matches(pool[i], table, vars))
                 {
                     Console.WriteLine("Result: " + ToText(pool[i]));
@@ -49,7 +52,6 @@ namespace LogicInterpreter.Commands
                 }
             }
 
-           
             for (int i = 0; i < pool.Length; i++)
             {
                 for (int j = 0; j < pool.Length; j++)
@@ -92,16 +94,29 @@ namespace LogicInterpreter.Commands
             Console.WriteLine("No match found (within limited search depth).");
         }
 
+        static void ResetCalculated(Node node)
+        {
+            if (node == null) return;
+
+            node.IsCalculated = false;
+            ResetCalculated(node.Left);
+            ResetCalculated(node.Right);
+
+        }
+
         static bool Matches(Node expr, int[,] table, char[] vars)
         {
             for (int row = 0; row < table.GetLength(0); row++)
             {
                 for (int v = 0; v < vars.Length; v++)
+                {
                     Set(expr, vars[v], table[row, v]);
+
+                }
 
                 int expected = table[row, vars.Length];
 
-                expr.IsCalculated = false; 
+                ResetCalculated(expr);
                 int actual = Solver.Evaluate(expr);
 
                 if (actual != expected)
@@ -119,7 +134,6 @@ namespace LogicInterpreter.Commands
                 if (node.Value != value)
                 {
                     node.Value = value;
-                    node.IsCalculated = false; 
                 }
             }
 
