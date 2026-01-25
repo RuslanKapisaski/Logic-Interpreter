@@ -41,8 +41,12 @@ function name and the value is the root of the expression tree.
 
 **Example**
 ```text
-DEFINE Func1(a,b): a & b
+DEFINE Func1(a,b): ab&
+Result: Function defined: Func1 -> ab&
+
 DEFINE Func2(a,b,c): Func1(a,b) | c 
+Result: Function defined: Func2 -> Func1c&
+
 ```
 
 `Note: Names of the function should start with capittal letter`
@@ -135,7 +139,7 @@ each line represents one function definition
 
 **Example**
 ```text
-SAVE Func1 
+SAVE fileName.txt 
 ```
 
 ---
@@ -150,8 +154,10 @@ Execution steps:
 
 **Example**
 ```text
-SAVE Func1 
+LOAD fileName.txt
 ```
+
+`Note:` If file does not exist an exception message is displayed.
 
 
 ---
