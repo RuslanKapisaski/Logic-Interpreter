@@ -16,14 +16,27 @@ namespace LogicInterpreter.Commands
 
         public static void Load(string path, FunctionCollection functions)
         {
-            using (StreamReader r = new StreamReader(path))
+            try
             {
-                while (!r.EndOfStream)
+
+                using (StreamReader r = new StreamReader(path))
                 {
-                    string line = r.ReadLine();
-                    if (line != "")
-                        Define.Execute(line, functions);
+                    while (!r.EndOfStream)
+                    {
+                        string line = r.ReadLine();
+                        if (line != null || line != "")
+                            Define.Execute(line, functions);
+                    }
                 }
+            }
+            catch (FileNotFoundException)
+            {
+                throw new Exception($"File: {path} not found.");
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error while loading file: - {e.Message}");
             }
         }
     }
