@@ -79,7 +79,7 @@ namespace LogicInterpreter.Commands
 
             functions.Add(name, function);
 
-            Console.WriteLine("Function defined:" + name);
+            Console.WriteLine($"Function defined: {name} -> {expression} ");
             return function;
 
         }
