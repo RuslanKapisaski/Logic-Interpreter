@@ -10,35 +10,47 @@
 
             for (int i = 0; i < input.Length; i++)
             {
-                bool isSeparator = false;
+                char c = input[i];
 
+             
+                bool isSeparator = false;
                 for (int j = 0; j < symbols.Length; j++)
                 {
-                    if (input[i] == symbols[j])
+                    if (c == symbols[j])
                     {
                         isSeparator = true;
                         break;
                     }
                 }
 
+              
+                if (!isSeparator && (c == ' ' || c == '\t' || c == '\r' || c == '\n'))
+                    continue;
+
+       
                 if (!isSeparator)
                 {
-                    current += input[i];
+                    current += c;
                 }
-                else if (current != "")
+                else
                 {
-                    result[count++] = current;
-                    current = "";
+                    if (current != "")
+                    {
+                        result[count++] = current;
+                        current = "";
+                    }
                 }
             }
 
             if (current != "")
-            {
                 result[count++] = current;
-            }
 
-            return result;
+           
+            string[] trimmed = new string[count];
+            for (int i = 0; i < count; i++)
+                trimmed[i] = result[i];
+
+            return trimmed;
         }
     }
 }
-

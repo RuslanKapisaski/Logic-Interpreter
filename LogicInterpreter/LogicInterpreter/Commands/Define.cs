@@ -6,14 +6,8 @@ namespace LogicInterpreter.Commands
 {
     class Define
     {
-
-
         public static LogicalFunction Execute(string input, FunctionCollection functions)
         {
-
-
-            input = input.Trim();
-
             int i = 6;
             string name = "";
 
