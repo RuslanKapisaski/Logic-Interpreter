@@ -45,7 +45,7 @@ DEFINE Func1(a,b): ab&
 Result: Function defined: Func1 -> ab&
 
 DEFINE Func2(a,b,c): Func1(a,b) | c 
-Result: Function defined: Func2 -> Func1c&
+Result: Function defined: Func2 -> Func1(a,b)c|
 
 ```
 

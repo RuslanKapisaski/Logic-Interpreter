@@ -130,6 +130,6 @@ class Program
         };
 
         char[] vars = { 'a', 'b', 'c' };
-        Finder.Find(table, vars);
+        Find.Execute(table, vars);
     }
 }

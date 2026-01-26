@@ -1,16 +1,15 @@
 ﻿using LogicInterpreter.Core;
 using System;
-using System.Xml.Serialization;
 
 namespace LogicInterpreter.Commands
 {
-    class Finder
+    class Find
     {
-        public static void Find(int[,] table, char[] vars)
+        public static void Execute(int[,] table, char[] vars)
         {
             int n = vars.Length;
 
-            // 1) Генерираме базови кандидати: a, b, c и !a, !b, !c
+            //Генерираме базови кандидати: a, b, c и !a, !b, !c
             Node[] pool = new Node[n * 2];
 
             for (int i = 0; i < n; i++)
@@ -19,14 +18,14 @@ namespace LogicInterpreter.Commands
                 pool[i + n] = Not(Var(vars[i]));
             }
 
-            // 2) Пробваме най-простите: a / !a
+            //Пробваме най-простите: a / !a
             for (int i = 0; i < pool.Length; i++)
             {
-                Node cand = pool[i];
+                Node cand = Clone(pool[i]); 
 
-                if (Matches(pool[i], table, vars))
+                if (Matches(cand, table, vars)) 
                 {
-                    Console.WriteLine("Result: " + ToText(pool[i]));
+                    Console.WriteLine("Result: " + ToText(cand)); 
                     return;
                 }
             }
@@ -52,6 +51,7 @@ namespace LogicInterpreter.Commands
                 }
             }
 
+            // 4) Пробваме 3 операнда (ограничена дълбочина): (x op y) op z
             for (int i = 0; i < pool.Length; i++)
             {
                 for (int j = 0; j < pool.Length; j++)
@@ -101,17 +101,16 @@ namespace LogicInterpreter.Commands
             node.IsCalculated = false;
             ResetCalculated(node.Left);
             ResetCalculated(node.Right);
-
         }
 
         static bool Matches(Node expr, int[,] table, char[] vars)
         {
             for (int row = 0; row < table.GetLength(0); row++)
             {
+                
                 for (int v = 0; v < vars.Length; v++)
                 {
                     Set(expr, vars[v], table[row, v]);
-
                 }
 
                 int expected = table[row, vars.Length];
@@ -131,10 +130,7 @@ namespace LogicInterpreter.Commands
 
             if (node.Type == NodeType.Variable && node.Name == name)
             {
-                if (node.Value != value)
-                {
-                    node.Value = value;
-                }
+                node.Value = value;
             }
 
             Set(node.Left, name, value);
@@ -166,23 +162,15 @@ namespace LogicInterpreter.Commands
 
         static string ToText(Node n)
         {
-            if (n == null)
-            {
-                return "";
-            }
+            if (n == null) return "";
 
             if (n.Type == NodeType.Variable)
-            {
                 return "" + n.Name;
-            }
 
             if (n.Type == NodeType.Not)
-            {
                 return "!" + ToText(n.Left);
-            }
 
             string operand = n.Type == NodeType.And ? "&" : "|";
-
             return "(" + ToText(n.Left) + " " + operand + " " + ToText(n.Right) + ")";
         }
     }
