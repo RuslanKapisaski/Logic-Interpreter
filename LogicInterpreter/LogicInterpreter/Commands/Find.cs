@@ -116,7 +116,7 @@ namespace LogicInterpreter.Commands
                 int expected = table[row, vars.Length];
 
                 ResetCalculated(expr);
-                int actual = Solver.Evaluate(expr);
+                int actual = Solve.Evaluate(expr);
 
                 if (actual != expected)
                     return false;

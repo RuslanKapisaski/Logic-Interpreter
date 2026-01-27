@@ -3,8 +3,10 @@ using System;
 
 namespace LogicInterpreter.Commands
 {
-    class Solver
+    class Solve
     {
+
+        //Задаване на стойност за всеки параметър
         public static void Execute(LogicalFunction function, int[] values)
         {
             for (int i = 0; i < function.Parameters.Length; i++)
@@ -16,7 +18,7 @@ namespace LogicInterpreter.Commands
             Console.WriteLine("Result: " + result);
         }
 
-        // Рекурсивно решаване + кеширане
+        // Рекурсивно решаване и кеширане
         internal static int Evaluate(Node node)
         {
             if (node.IsCalculated)
@@ -63,7 +65,7 @@ namespace LogicInterpreter.Commands
                 }
                 return false;
             }
-
+            //Търсим промяна в ляво и дясно държо
             bool leftChanged = UpdateVariable(node.Left, varName, newValue);
             bool rightChanged = UpdateVariable(node.Right, varName, newValue);
 

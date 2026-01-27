@@ -8,7 +8,7 @@ class Program
     static void Main()
     {
 
-        Console.WriteLine("Welcome!/n Possible commands: DEFINE, SOLVE, ALL, FIND, SAVE, LOAD & EXIT");
+        Console.WriteLine("Welcome! Possible commands: DEFINE, SOLVE, ALL, FIND, SAVE, LOAD & EXIT");
 
         FunctionCollection functions = new FunctionCollection();
 
@@ -93,6 +93,8 @@ class Program
     {
         string expression = parts[1];
 
+        //SOLVE Func(1,0)
+
         string[] tokens = Splitter.Split(expression, new char[] { '(', ')', ',' });
 
         string name = tokens[0];
@@ -111,7 +113,7 @@ class Program
             values[i] = tokens[i + 1][0] - '0';
         }
 
-        Solver.Execute(func, values);
+        LogicInterpreter.Commands.Solve.Execute(func, values);
     }
 
     static void FinderDemo()

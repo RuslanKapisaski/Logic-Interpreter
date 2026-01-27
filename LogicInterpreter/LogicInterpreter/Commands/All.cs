@@ -45,10 +45,10 @@ namespace LogicInterpreter.Commands
 
                 for (int i = 0; i < function.Parameters.Length; i++)
                 {
-                    Solver.UpdateVariable(function.Root, function.Parameters[i], values[i]);
+                    Solve.UpdateVariable(function.Root, function.Parameters[i], values[i]);
                 }
 
-                int result = Solver.Evaluate(function.Root);
+                int result = Solve.Evaluate(function.Root);
 
                 Console.Write(" : ");
                 Console.WriteLine(result);

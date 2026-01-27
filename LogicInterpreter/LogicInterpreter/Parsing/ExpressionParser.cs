@@ -33,6 +33,8 @@ namespace LogicInterpreter.Parsing
                         Name = token
                     });
                 }
+
+                // DEFINE Fun2(a,b,c): Func1(a,b)c|
                 else if (IsUpperLetter(token))
                 {
                     string name = "";
